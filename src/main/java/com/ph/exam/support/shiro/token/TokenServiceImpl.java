@@ -7,6 +7,7 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ph.exam.support.constant.Constant;
+import com.ph.exam.support.exception.ExamException;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -52,6 +53,7 @@ public class TokenServiceImpl implements TokenService {
             // 校验TOKEN
             verifier.verify(token);
         } catch (JWTVerificationException exception) {
+            throw new ExamException("token验证失败");
         }
     }
 

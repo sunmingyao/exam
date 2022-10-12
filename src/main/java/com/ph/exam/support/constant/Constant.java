@@ -25,10 +25,5 @@ public class Constant {
      */
     public static String TOKEN_HEADER_NAME = "examtoken";
 
-    /**
-     * loginBody缓存时间
-     */
-    public static Integer LOGIN_BODY_CACHE_EXPIRE_TIME = 8;
-
 
 }
