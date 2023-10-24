@@ -42,6 +42,7 @@ public class AccountService extends ServiceImpl<AccountMapper, Account> implemen
         String encryptPassword = CommonsUtils.encryptPassword(account.getPassWord(), salt);
         account.setPassWord(encryptPassword);
         account.setSalt(salt);
+        account.setActiveFlag(1);
         this.save(account);
     }
 }

@@ -1,6 +1,7 @@
 package com.ph.exam.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -39,6 +40,7 @@ public class BaseQuestion extends BaseEntity implements Serializable {
 
     private BigDecimal score;
 
+    @TableField(exist = false)
     private List<QuestionOption> optionList; //选项
 
 }

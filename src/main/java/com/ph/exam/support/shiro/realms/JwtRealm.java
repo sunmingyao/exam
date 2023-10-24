@@ -79,12 +79,12 @@ public class JwtRealm extends AuthorizingRealm {
 
         //自定义验证token
         tokenService.verify(token, tokenService.getSalt(token), tokenService.getIssuer(token));
-        Object cacheObject = redisCache.getCacheObject(RedisKey.getLoginExpire(tokenService.getJobNumber(token)));
+        Object cacheObject = redisCache.getCacheObject(RedisKey.getLoginUserKey(tokenService.getJobNumber(token)));
         if (cacheObject == null) {
             throw new AuthenticationException("登录失效，请重新登录！");
         }
         //刷新登录登录失效时间
-        redisCache.setCacheObject(RedisKey.getLoginExpire(tokenService.getJobNumber(token)), LocalDateTime.now().toString(), Constant.LOGIN_EXPIRE_TIME, TimeUnit.MINUTES);
+        redisCache.setCacheObject(RedisKey.getLoginUserKey(tokenService.getJobNumber(token)), cacheObject, Constant.LOGIN_EXPIRE_TIME, TimeUnit.MINUTES);
 
         return simpleAuthenticationInfo;
     }

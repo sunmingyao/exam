@@ -18,7 +18,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -87,27 +86,19 @@ public class LoginService {
 
 
         //放入缓存
-        redisCache.setCacheObject(RedisKey.getLoginExpire(tokenService.getJobNumber(token)), LocalDateTime.now().toString(), Constant.LOGIN_EXPIRE_TIME, TimeUnit.MINUTES);
+        redisCache.setCacheObject(RedisKey.getLoginUserKey(tokenService.getJobNumber(token)), loginBody, Constant.LOGIN_EXPIRE_TIME, TimeUnit.MINUTES);
 
         return loginBody;
     }
 
 
-    @Cacheable(value = "LOGIN:USER", key = "'LONINBODY_'+#userName")
+//    @Cacheable(value = "LOGIN:USER", key = "'LONINBODY_'+#userName")
     public LoginBody getLoginBody(String userName) {
 
-        Account account = Optional.ofNullable(accountMapper.selectOne(Wrappers.lambdaQuery(Account.class).eq(Account::getUserName, userName))).orElseThrow(() -> new ExamException(String.format("用户[%s]不存在", userName)));
-        if (account.getActiveFlag() != 1) {
-            throw new ExamException("用户已失效");
-        }
+        Object cacheObject = redisCache.getCacheObject(RedisKey.getLoginUserKey(userName));
 
-        LoginBody loginBody = new LoginBody();
 
-        //放入账号
-        loginBody.setUserName(account.getUserName());
-        loginBody.setNikeName(account.getNikeName());
-
-        return loginBody;
+        return (LoginBody) cacheObject;
 
     }
 
