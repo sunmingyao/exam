@@ -5,6 +5,8 @@ import com.ph.exam.dto.LoginDTO;
 import com.ph.exam.entity.Account;
 import com.ph.exam.entity.LoginBody;
 import com.ph.exam.mapper.AccountMapper;
+import com.ph.exam.mapper.RoleResourceMapper;
+import com.ph.exam.mapper.UserRoleMapper;
 import com.ph.exam.support.config.RedisCache;
 import com.ph.exam.support.constant.Constant;
 import com.ph.exam.support.constant.RedisKey;
@@ -39,6 +41,11 @@ public class LoginService {
     @Resource
     private RedisCache redisCache;
 
+    @Resource
+    private UserRoleMapper userRoleMapper;
+
+    @Resource
+    private RoleResourceMapper roleResourceMapper;
     /**
      * 用户名密码登录
      *
@@ -84,6 +91,9 @@ public class LoginService {
         loginBody.setToken(token);
         loginBody.setIssuer(issuer);
 
+        loginBody.setRoleSet(userRoleMapper.getUserRoleSet(account.getId()));
+        loginBody.setPermissionSet(roleResourceMapper.getUserPermission(account.getId()));
+
 
         //放入缓存
         redisCache.setCacheObject(RedisKey.getLoginUserKey(tokenService.getJobNumber(token)), loginBody, Constant.LOGIN_EXPIRE_TIME, TimeUnit.MINUTES);
@@ -96,9 +106,16 @@ public class LoginService {
     public LoginBody getLoginBody(String userName) {
 
         Object cacheObject = redisCache.getCacheObject(RedisKey.getLoginUserKey(userName));
+        LoginBody loginBody = (LoginBody) cacheObject;
+
+        if (cacheObject != null) {
+            loginBody.setPermissionSet(roleResourceMapper.getUserPermissionByAccount(userName));
+            loginBody.setRoleSet(userRoleMapper.getUserRoleSetByAccount(userName));
+            redisCache.setCacheObject(RedisKey.getLoginUserKey(userName), loginBody, Constant.LOGIN_EXPIRE_TIME, TimeUnit.MINUTES);
+        }
 
 
-        return (LoginBody) cacheObject;
+        return loginBody;
 
     }
 

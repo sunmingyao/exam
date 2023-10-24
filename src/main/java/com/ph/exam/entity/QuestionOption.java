@@ -21,7 +21,9 @@ public class QuestionOption implements Serializable {
 
     private String questionId;  //问题id
 
-    private String option;  //想想
+    private String optionIndex; //选项代号
+
+    private String option;  //选项
 
     private Integer isAnswer;   //是否是问题答案
 }

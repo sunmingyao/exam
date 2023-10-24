@@ -1,7 +1,7 @@
 package com.ph.exam.support.processor;
 
 import com.ph.exam.support.exception.ExamException;
-import com.ph.exam.support.handler.TreeHandler;
+import com.ph.exam.service.handler.TreeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;

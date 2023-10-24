@@ -2,7 +2,7 @@ package com.ph.exam.support.processor;
 
 import com.ph.exam.entity.BaseQuestion;
 import com.ph.exam.support.exception.ExamException;
-import com.ph.exam.support.handler.QuestionHandler;
+import com.ph.exam.service.handler.QuestionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;

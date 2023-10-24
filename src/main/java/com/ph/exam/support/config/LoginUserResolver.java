@@ -29,8 +29,6 @@ import javax.annotation.Resource;
 @Component
 public class LoginUserResolver  implements HandlerMethodArgumentResolver {
 
-    @Resource
-    private RedisCache redisCache;
 
     @Resource
     private TokenService tokenService;

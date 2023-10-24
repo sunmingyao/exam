@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ph.exam.mapper.UserRoleMapper">
+
+
+    <select id="getUserRoleSet" resultType="java.lang.String">
+        select distinct tr.role_code
+        from t_user_role ur
+                 left join t_role tr on ur.role_id = tr.id
+        where ur.user_id = #{userId}
+    </select>
+
+    <select id="getUserRoleSetByAccount" resultType="java.lang.String">
+        select distinct tr.role_code
+        from t_user_role ur
+                 left join t_role tr on ur.role_id = tr.id
+                 left join t_account a on a.id = ur.user_id
+        where a.user_name = #{userName}
+    </select>
+</mapper>

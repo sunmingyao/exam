@@ -24,8 +24,6 @@ public class LoginBody implements Serializable {
     //角色信息
     private Set<String> roleSet;
 
-    private String roleName;
-
     //权限信息
     private Set<String> permissionSet;
 
