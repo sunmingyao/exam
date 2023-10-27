@@ -20,9 +20,6 @@ import java.util.Optional;
 @Service
 public class RoleService extends ServiceImpl<RoleMapper, Role> implements IService<Role> {
 
-    @Resource
-    private UserRoleService userRoleService;
-
     /**
      * 创建角色
      *
